@@ -49,7 +49,40 @@ class ModelTrainer:
                 "AdaBoost Classifier": AdaBoostRegressor(),
             }
 
-            model_report:dict=evaluate_models(x_train, y_train, x_test, y_test, models)
+            param={
+                "Decision Tree": {
+                    'criterion':['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
+                    # 'splitter':['best','random'],
+                    # 'max_features':['sqrt','log2'],
+                },
+                "Random Forest":{
+                    # 'criterion':['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
+
+                    # 'max_features':['sqrt','log2',None],
+                    'n_estimators': [8,16,32,64,128,256]
+                },
+                "Linear Regression":{},
+                "K-Neighbors Classifier":{},
+                "XGBClassifier":{
+                    'learning_rate':[.1,.01,.05,.001],
+                    'n_estimators': [8,16,32,64,128,256]
+                },
+                "CatBoosting Classifier":{
+                    'depth': [6,8,10],
+                    'learning_rate': [0.01, 0.05, 0.1],
+                    'iterations': [30, 50, 100]
+                },
+                "AdaBoost Classifier":{
+                    'learning_rate':[.1,.01,0.5,.001],
+                    # 'loss':['linear','square','exponential'],
+                    'n_estimators': [8,16,32,64,128,256]
+                }
+
+            }
+
+
+            model_report:dict=evaluate_models(x_train, y_train, x_test,
+                                                y_test, models=models, params=param)
             
 
 
